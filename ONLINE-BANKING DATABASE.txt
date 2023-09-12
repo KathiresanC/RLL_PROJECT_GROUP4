@@ -1,0 +1,146 @@
+-- Create the database
+CREATE DATABASE IF NOT EXISTS onlinebankingg;
+USE onlinebankingg;
+#Drop database onlinebankingg;
+
+
+-- Create table for User entity
+CREATE TABLE IF NOT EXISTS user (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fname VARCHAR(255),
+    lname VARCHAR(255),
+    phone BIGINT,
+    address VARCHAR(255),
+    email VARCHAR(255),
+    username VARCHAR(255),
+    password VARCHAR(255),
+    dob DATE,
+    identity_type VARCHAR(255),
+    identity VARCHAR(255),
+    status BOOLEAN DEFAULT FALSE,
+    authorization_status BOOLEAN DEFAULT FALSE,
+    feature_status INT DEFAULT 3
+);
+
+-- Create table for Account entity
+CREATE TABLE IF NOT EXISTS Account (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    accno BIGINT NOT NULL,
+    balance INT,
+    username VARCHAR(255),
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES User(id)
+);
+
+-- Create table for chequebook_requests entity
+CREATE TABLE IF NOT EXISTS chequebook_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    account_number BIGINT NOT NULL,
+    account_type VARCHAR(255),
+    request_status BOOLEAN,
+    request_date DATE,
+    number_of_pages INT
+);
+
+-- Create table for UserDisplay entity
+CREATE TABLE IF NOT EXISTS user_display (
+    username VARCHAR(255) PRIMARY KEY,
+    primaryAccno BIGINT,
+    primaryBalance INT,
+    savingsAccno BIGINT,
+    savingsBalance INT
+);
+
+-- Create table for UserHistory entity
+CREATE TABLE IF NOT EXISTS user_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    account BIGINT,
+    amount INT,
+    action VARCHAR(255),
+    date DATE
+);
+
+-- Create table for Loan entity
+CREATE TABLE IF NOT EXISTS Loan (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    amount INT NOT NULL,
+    annual_Income VARCHAR(255),
+    loan_Used_For VARCHAR(255),
+    loan_Status VARCHAR(10) DEFAULT 'Pending',
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES User(id)
+);
+
+-- Create table for Saccount entity
+CREATE TABLE IF NOT EXISTS Saccount (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    accno BIGINT NOT NULL,
+    balance INT,
+    username VARCHAR(255),
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES User(id)
+);
+
+-- Create table for Transfer entity
+CREATE TABLE IF NOT EXISTS Transfer (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    saccount BIGINT NOT NULL,
+    raccount BIGINT NOT NULL,
+    amount INT,
+    date DATE
+);
+
+
+-- Insert data into the User table
+INSERT INTO user (fname, lname, phone, address, email, username, password, dob, identity_type, identity, status, authorization_status, feature_status) VALUES
+   ('John', 'Doe', 391491820101, '123 Main St', 'john.doe@example.com', 'johndoe', 'password123', '1990-01-15', 'SSN', '123-45-6789', false, true, 3),
+   ('Alice', 'Smith', 391491820102, '456 Elm St', 'alice.smith@example.com', 'alicesmith', 'securepass', '1985-03-20', 'Driver License', 'DL123456', false, true, 3),
+   ('Bob', 'Johnson', 391491820103, '789 Oak St', 'bob.johnson@example.com', 'bobjohnson', 'p@ssw0rd', '1995-07-10', 'Passport', 'P1234567', false, true, 3);
+
+-- Insert data into the Account table
+INSERT INTO Account (accno, balance, username, user_id) VALUES
+   (391491820101, 1000, 'johndoe', 1),
+   (391491820102, 2500, 'alicesmith', 2),
+   (391491820103, 500, 'bobjohnson', 3);
+
+-- Insert data into the chequebook_requests table
+INSERT INTO chequebook_requests (account_number, account_type, request_status, request_date, number_of_pages)
+VALUES
+   (391491820101, 'Primary', true, '2023-09-05', 20),
+   (9876543210, 'Savings', false, '2023-09-06', 10),
+   (391491820102, 'Primary', true, '2023-09-07', 15),
+   (391491820101, 'Primary', true, '2023-09-05', 20),
+   (1234567890, 'Savings', false, '2023-09-06', 10),
+   (391491820103, 'Primary', true, '2023-09-07', 15);
+
+-- Insert data into the UserDisplay table
+INSERT INTO user_display (username, primaryAccno, primaryBalance, savingsAccno, savingsBalance) VALUES
+   ('johndoe', 391491820101, 1000, 9876543210, 2500),
+   ('alicesmith', 391491820102, 2500, 1234567890, 1000),
+   ('bobjohnson', 391491820103, 500, 7894561230, 1500);
+
+-- Insert data into the UserHistory table
+INSERT INTO user_history (account, amount, action, date) VALUES
+   (1234567890, 100, 'Deposit', '2023-09-05'),
+   (391491820103, 500, 'Withdraw', '2023-09-06'),
+   (391491820101, 200, 'Deposit', '2023-09-07');
+
+#select*from loan;
+-- Insert data into the Loan table
+INSERT INTO Loan (amount, annual_Income, loan_Used_For, loan_Status, user_id) VALUES
+   (5000, '45000', 'Home Improvement', 'Approved', 1),
+   (3000, '35000', 'Education', 'Pending', 2),
+   (10000, '60000', 'Car Purchase', 'Rejected', 3);
+
+-- Insert data into the Saccount table
+INSERT INTO Saccount (accno, balance, username, user_id) VALUES
+   (9876543210, 1500, 'johndoe', 1),
+   (1234567890, 3000, 'alicesmith', 2),
+   (7894561230, 5000, 'bobjohnson', 3);
+
+-- Insert data into the Transfer table
+INSERT INTO Transfer (saccount, raccount, amount, date) VALUES
+   (123456789, 9876543210, 200, '2023-09-05'),
+   (391491820101, 7894561230, 150, '2023-09-06'),
+   (456789123, 391491820102, 300, '2023-09-07'),
+   (391491820103, 7894561230, 500, '2023-09-09');

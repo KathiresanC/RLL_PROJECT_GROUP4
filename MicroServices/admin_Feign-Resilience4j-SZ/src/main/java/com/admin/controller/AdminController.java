@@ -56,4 +56,11 @@ public class AdminController {
         String message = "User disabled";
         return ResponseEntity.ok(message);
     }
+    
+    @GetMapping("/user/{username}/authorize")
+    public ResponseEntity<String> authorizeUser(@PathVariable("username") String username) {
+    	adminServiceProxy.authorizeUser(username);
+        String message = "User Authorized";
+        return ResponseEntity.ok(message);
+    }
 }

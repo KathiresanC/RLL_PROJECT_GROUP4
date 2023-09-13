@@ -63,4 +63,12 @@ public class AdminController {
         return ResponseEntity.ok(message);
 	}
 	
+	@GetMapping("/user/{username}/authorize")
+	public ResponseEntity<String> authorizeUser(@PathVariable("username") String username)
+	{
+		service.authorizeUser(username);
+		 String message = "user Authorized";
+	     return ResponseEntity.ok(message);
+	}
+	
 }

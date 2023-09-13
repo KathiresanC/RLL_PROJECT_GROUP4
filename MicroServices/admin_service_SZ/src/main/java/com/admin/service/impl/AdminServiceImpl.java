@@ -60,6 +60,7 @@ public class AdminServiceImpl implements AdminService{
 		userDao.disableUser(username);
 		
 	}
+	
 
 	@Override
 	public List<UserDisplay> getAllUsers() {
@@ -98,5 +99,12 @@ public class AdminServiceImpl implements AdminService{
 		}
 		
 	}
+	
+	@Override
+	public void authorizeUser(String username) {
+		userDao.authorizeUser(username);
+		
+	}
+	
 
 }

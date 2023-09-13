@@ -24,7 +24,5 @@ public interface LoginServiceProxy {
 	        fallbackResponse.setLoginStatus(false);
 	        fallbackResponse.setResponseMessage("Service is currently unavailable. Please try again later.");
 	        return fallbackResponse;  
-	    }
-	
-	
+	    }	
 }

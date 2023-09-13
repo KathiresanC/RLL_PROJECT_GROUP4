@@ -38,7 +38,7 @@ public class User {
     @Column(columnDefinition = "boolean default false")
     private boolean status;
 
-    @Column(columnDefinition = "boolean default false")
+    @Column(columnDefinition = "boolean default true")
     private boolean authorizationStatus;
 
     @Column(columnDefinition = "integer default 3", nullable = false)

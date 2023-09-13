@@ -130,52 +130,16 @@ public class AccountController {
 	
 	@PostMapping("/account/transfer")
 	public TransferResponse transfer(@RequestBody TransferDetails details) {
-		try {
-			log.debug("In tansfer ");
-			if(details.getIfsc().equals(ifsc)) 
-			{
-						Account p=adao.findByUsername(details.getUsername());
-						Saccount s=sdao.findByUsername(details.getUsername());
-						
-						if(p.getAccno()==details.getSaccount() || s.getAccno()==details.getSaccount()) {
-						//String len = Integer.toString(details.getSaccount());
-						if(isprimary(details.getSaccount())) {
-						TransferResponse sts= service.transfer(details.getSaccount(), details.getRaccount(), details.getAmount());
-						return sts;
-						}
-						else
-						{
-							TransferResponse sts=sservice.transfer(details.getSaccount(), details.getRaccount(), details.getAmount());
-							return sts;
-						}
-						}
-						else {
-							TransferResponse response=new TransferResponse();
-							response.setSaccount(details.getSaccount());
-							response.setResponseMessage("Dear User, You can only transfer funds from the accounts registered with you");
-							response.setTransferStatus(false);
-							log.debug("response ===>"+response);
-							return response;
-			}
-			}
-			else {
-				TransferResponse response=new TransferResponse();
-						response.setSaccount(details.getSaccount());
-						response.setResponseMessage("IFSC code is incorrect");
-						response.setTransferStatus(false);
-						log.debug("response ===>"+response);
-						return response;
-			}
-		} catch (Exception e) {
-			TransferResponse response=new TransferResponse();
-			response.setSaccount(details.getSaccount());
-			response.setResponseMessage("Please provide an IFSC code");
-			response.setTransferStatus(false);
-			log.debug("response ===>"+response);
-			return response;
+	
 			
+			if(isprimary(details.getSaccount())) {
+			return service.transfer(details.getSaccount(), details.getRaccount(), details.getAmount());
+			}
+			else
+			{
+				return sservice.transfer(details.getSaccount(), details.getRaccount(), details.getAmount());
+			}
 		}
-	}
 	
 	@GetMapping("/account/getHistory/{account}")
 	public List<UserHistory> getHistory(@PathVariable("account") long account )

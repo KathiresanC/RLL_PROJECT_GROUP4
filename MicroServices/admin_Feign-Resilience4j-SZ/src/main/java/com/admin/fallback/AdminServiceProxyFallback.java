@@ -39,5 +39,9 @@ public class AdminServiceProxyFallback implements AdminServiceProxy {
     @Override
     public void disableUser(String username) {
     }
-
+    
+    @Override
+    public void authorizeUser(String username) {
+        // Fallback logic for authorizeUser
+    }
 }

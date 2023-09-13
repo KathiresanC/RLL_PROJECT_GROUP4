@@ -1,6 +1,7 @@
 package com.admin.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.admin.model.ChequebookRequest;
@@ -44,6 +45,11 @@ public interface AdminServiceProxy {
     @CircuitBreaker(name = "Admin-banking", fallbackMethod = "fallbackMethodForDisableUser")
     @GetMapping("/user/{username}/disable")
     void disableUser(@PathVariable("username") String username);
+    
+    @Retry(name = "Admin-banking")
+    @CircuitBreaker(name = "Admin-banking", fallbackMethod = "fallbackMethodForAuthorizeUser")
+    @GetMapping("/user/{username}/authorize")
+    void authorizeUser(@PathVariable("username") String username);
 
     default void fallbackMethodForSetUserFeatures(String username, int featureId, Throwable throwable) {
         // Fallback logic for setUserFeatures
@@ -69,5 +75,9 @@ public interface AdminServiceProxy {
 
     default void fallbackMethodForDisableUser(String username, Throwable throwable) {
         // Fallback logic for disableUser
+    }
+    
+    default void fallbackMethodForAuthorizeUser(String username, Throwable throwable) {
+        // Fallback logic for authorizeUser
     }
 }

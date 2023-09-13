@@ -27,15 +27,16 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	@Query("update User u set u.status=false where u.username = ?1")
 	void enableUser(String username);
 	
+	@Modifying
+	@Transactional
+	@Query("update User u set u.authorizationStatus=1 where u.username = ?1")
+	void authorizeUser(String username);
+	
 	
 	@Modifying
 	@Transactional
 	@Query("update User u set u.featureStatus=?2 where u.username = ?1")
 	void setUserFeatureStatus(String username, int featureId);
-	
-	
-	
-	
-	
+		
 	
 }

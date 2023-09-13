@@ -126,9 +126,7 @@ public interface AccountServiceProxy {
 	    return response;
     }
 
-    // Fallback method for transfer
     default TransferResponse fallbackMethodForTransfer(TransferDetails details, Throwable throwable) {
-    	// Return a default TransferResponse indicating success
 	    TransferResponse response = new TransferResponse();
 	    response.setTransferStatus(true);
 	    response.setSaccount(4445);
@@ -136,15 +134,13 @@ public interface AccountServiceProxy {
 	    return response;
     }
 
-    // Fallback method for getAccountHistory
+
     default List<UserHistory> fallbackMethodForGetAccountHistory(long account, Throwable throwable) {
-        // Implement fallback behavior for getAccountHistory here
+
         return Collections.emptyList(); 
     }
 
-    // Fallback method for getTransfers
     default List<Transfer> fallbackMethodForGetTransfers(long account, Throwable throwable) {
-        // Implement fallback behavior for getTransfers here
         return Collections.emptyList(); 
     }
 }
